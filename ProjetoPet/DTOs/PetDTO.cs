@@ -25,6 +25,6 @@ public class PetDTO
 
     [Required(ErrorMessage = "O ID do dono é obrigatório.")]
     public int DonoId { get; set; }  // Propriedade para associar o dono
-    
+    [JsonIgnore]
     public DonoModel? Dono { get; set; } 
 }

@@ -12,6 +12,7 @@ public class AppDbContext : DbContext
 
     public DbSet<DonoModel> Donos { get; set; }
     public DbSet<PetModel> Pets { get; set; }
+    public DbSet<Usuario> Usuarios { get; set; }
 
     //Fluente API
 
@@ -40,5 +41,10 @@ public class AppDbContext : DbContext
             .WithOne(c => c.Dono)
             .IsRequired()
             .OnDelete(DeleteBehavior.Cascade);
+
+        mb.Entity<Usuario>().HasKey(c => c.Id);
+        mb.Entity<Usuario>().Property(c => c.Nome).HasMaxLength(25).IsRequired();
+        mb.Entity<Usuario>().Property(c => c.Email).HasMaxLength(50).IsRequired();
+
     }
 }

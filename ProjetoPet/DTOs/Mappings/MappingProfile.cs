@@ -10,5 +10,6 @@ public class MappingProfile : Profile
         CreateMap<DonoModel, DonoDTO>().ReverseMap();
         CreateMap<DonoModel, DonoCriarDTO>().ReverseMap();
         CreateMap<PetModel, PetDTO>().ReverseMap();
+        CreateMap<Usuario, UsuarioDTO>().ReverseMap();
     }
 }

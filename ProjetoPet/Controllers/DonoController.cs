@@ -59,18 +59,6 @@ public class DonoController : ControllerBase
         return new CreatedAtRouteResult("ObterDono", new { id = donoCriarDto.Id }, donoCriarDto);
     }
 
-
-    //[HttpPost]
-    //public async Task<ActionResult> Criar([FromBody] DonoDTO donoDto)
-    //{
-    //    if (donoDto is null)
-    //        return BadRequest("Não foi possível criar um dono");
-
-    //    await _donoService.CriarDono(donoDto);
-
-    //    return new CreatedAtRouteResult("ObterDono", new { id = donoDto.Id }, donoDto);
-    //}
-
     [HttpPut("{id:int}")]
     public async Task<ActionResult> Atualizar(int id, [FromBody] DonoDTO donoDto)
     {
