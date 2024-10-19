@@ -10,7 +10,4 @@ public interface IUsuarioRepository
     Task<Usuario> Atualizar(Usuario usuario);
     Task<Usuario> Deletar(int id);
     
-    
-   
-  
 }

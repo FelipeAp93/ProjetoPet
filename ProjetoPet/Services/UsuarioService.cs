@@ -2,6 +2,8 @@
 using ProjetoPet.DTOs;
 using ProjetoPet.Models;
 using ProjetoPet.Repositories;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace ProjetoPet.Services;
 
@@ -32,6 +34,16 @@ public class UsuarioService : IUsuarioService
     public async Task<UsuarioDTO> Incluir(UsuarioDTO usuarioDto)
     {
         var usuario = _mapper.Map<Usuario>(usuarioDto);
+
+        if (usuarioDto.Password != null)
+        {
+            
+            using var hmac = new HMACSHA256();
+                byte[] passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(usuarioDto.Password));
+            byte[] passwordSalt = hmac.Key;
+
+            usuario.AlterarSenha(passwordHash, passwordSalt);
+        }
         var usuarioIncluido = await _repository.Incluir(usuario);
         return _mapper.Map<UsuarioDTO>(usuarioIncluido);
 

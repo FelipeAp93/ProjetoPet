@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ProjetoPet.DTOs;
 using ProjetoPet.Services;
@@ -49,6 +50,7 @@ public class DonoController : ControllerBase
         return Ok(donoDto);
     }
     [HttpPost]
+    [Authorize]
     public async Task<ActionResult> Criar([FromBody] DonoCriarDTO donoCriarDto)
     {
         if (donoCriarDto is null)
@@ -60,6 +62,7 @@ public class DonoController : ControllerBase
     }
 
     [HttpPut("{id:int}")]
+    [Authorize]
     public async Task<ActionResult> Atualizar(int id, [FromBody] DonoDTO donoDto)
     {
         if (id != donoDto.Id)
@@ -72,6 +75,7 @@ public class DonoController : ControllerBase
     }
 
     [HttpDelete("{id:int}")]
+    [Authorize]
     public async Task<ActionResult<DonoDTO>> Deletar(int id)
     {
         var donoDto = await _donoService.BuscarDonoPorId(id);

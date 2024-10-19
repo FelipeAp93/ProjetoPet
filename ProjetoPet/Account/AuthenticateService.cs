@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using ProjetoPet.Data;
+using ProjetoPet.Models;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -27,7 +28,7 @@ public class AuthenticateService : IAuthenticate
         {
             return false;
         }
-        using var hmac = new HMACSHA3_512(usuario.PasswordSalt);
+        using var hmac = new HMACSHA256(usuario.PasswordSalt);
         var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(senha));
         for (int x = 0 ; x < computedHash.Length; x++)
         {
@@ -71,6 +72,10 @@ public class AuthenticateService : IAuthenticate
         return new JwtSecurityTokenHandler().WriteToken(token);
     }
 
+    public async Task<Usuario> GetUserByEmail(string email)
+    {
+        return await _context.Usuarios.Where(x => x.Email.ToLower() == email.ToLower()).FirstOrDefaultAsync();
+    }
 
     public async Task<bool> UserExiste(string email)
 {

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ProjetoPet.Account;
 using ProjetoPet.DTOs;
 using ProjetoPet.Models;
@@ -9,6 +10,7 @@ namespace ProjetoPet.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[AllowAnonymous]
 public class UsuarioController : Controller
 {
     private readonly IAuthenticate _authenticateService;
@@ -48,5 +50,30 @@ public class UsuarioController : Controller
         {
             Token = token
         };
+    }
+
+    [HttpPost("login")]
+    public async Task<ActionResult<UserToken>> Selecionar (LoginModel loginModel)
+    {
+        var existe = await _authenticateService.UserExiste(loginModel.Email);
+        if (!existe)
+        {
+            return BadRequest("Usuário não existe.");
+        }
+
+        var result = await _authenticateService.AuthenticateAsync(loginModel.Email, loginModel.Password);
+        if (!result) 
+        {
+            return BadRequest("Teste.");
+        }
+
+        var usuario = await _authenticateService.GetUserByEmail(loginModel.Email);
+
+        var token = _authenticateService.GenerateToken(usuario.Id, usuario.Email);
+
+        return new UserToken
+        {
+            Token = token
+        }; 
     }
 }

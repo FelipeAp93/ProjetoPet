@@ -40,6 +40,4 @@ public class UsuarioRepository : IUsuarioRepository
         await _context.SaveChangesAsync();
         return usuario;
     }
-
-
 }

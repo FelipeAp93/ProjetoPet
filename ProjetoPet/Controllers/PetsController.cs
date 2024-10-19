@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ProjetoPet.DTOs;
 using ProjetoPet.Services;
@@ -50,6 +51,7 @@ namespace ProjetoPet.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult> Criar([FromBody] PetDTO petDto)
         {
             if (petDto is null)
@@ -61,6 +63,7 @@ namespace ProjetoPet.Controllers
         }
 
         [HttpPut("{id:int}")]
+        [Authorize]
         public async Task<ActionResult> Atualizar(int id, [FromBody] PetDTO petDto)
         {
             if (id != petDto.Id)
@@ -73,6 +76,7 @@ namespace ProjetoPet.Controllers
         }
 
         [HttpDelete("{id:int}")]
+        [Authorize]
         public async Task<ActionResult<PetDTO>> Deletar(int id)
         {
             var petDto = await _petService.BuscarPetPorId(id);
